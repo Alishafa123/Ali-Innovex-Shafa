@@ -4,12 +4,84 @@ import './App.css';
 function App() {
   const [originalURL, setOriginalURL] = useState('');
   const [shortURL, setShortURL] = useState('');
+  const [result, setResult] = useState('');
 
-  const handleCreate = () => console.log('Create:', originalURL);
-  const handleRetrieve = () => console.log('Retrieve:', shortURL);
-  const handleUpdate = () => console.log('Update:', shortURL);
-  const handleDelete = () => console.log('Delete:', shortURL);
-  const handleStats = () => console.log('Stats:', shortURL);
+  const API_BASE = 'http://localhost:5000/shortens';
+
+  const handleCreate = async () => {
+    try {
+      const res = await fetch(`${API_BASE}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ originalUrl: originalURL }),
+      });
+      const data = await res.json();
+      setShortURL(data.shortUrl); 
+      setResult(`Shortened URL: ${data.shortUrl}`);
+    } catch (err) {
+      setResult('Error creating short URL');
+    }
+  };
+
+  const handleRetrieve = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/${shortURL}`);
+      const data = await res.json();
+  
+      if (res.ok) {
+        setResult(`Original URL: ${data.originalUrl}`);
+      } else {
+        setResult(data.error || 'URL not found');
+      }
+    } catch (err) {
+      setResult('Error retrieving original URL');
+    }
+  };
+  
+
+  const handleUpdate = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/${shortURL}`, {
+        method: 'PUT',
+      });
+      const data = await res.json();
+  
+      if (res.ok) {
+        setResult(`Updated to: ${data.newShortUrl}`);
+        setShortURL(data.newShortUrl); // Update local state with new short URL
+      } else {
+        setResult(data.error || 'Failed to update short URL');
+      }
+    } catch (err) {
+      setResult('Error updating short URL');
+    }
+  };
+  
+
+  const handleDelete = async () => {
+    try {
+      await fetch(`${API_BASE}/${shortURL}`, { method: 'DELETE' });
+      setResult('Short URL deleted');
+    } catch (err) {
+      setResult('Error deleting short URL');
+    }
+  };
+
+  const handleStats = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/${shortURL}/stats`);
+      const data = await res.json();
+  
+      if (res.ok) {
+        setResult(`Access count: ${data.clicks}`);
+      } else {
+        setResult(data.error || 'URL not found');
+      }
+    } catch (err) {
+      setResult('Error fetching stats');
+    }
+  };
+  
 
   return (
     <div className="App">
@@ -24,7 +96,7 @@ function App() {
 
       <input
         type="text"
-        placeholder="Short URL"
+        placeholder="Short URL ID"
         value={shortURL}
         onChange={(e) => setShortURL(e.target.value)}
       />
@@ -36,6 +108,8 @@ function App() {
         <button className="delete" onClick={handleDelete}>Delete</button>
         <button className="stats" onClick={handleStats}>Stats</button>
       </div>
+
+      <p>{result}</p>
     </div>
   );
 }
