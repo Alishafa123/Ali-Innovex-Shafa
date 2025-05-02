@@ -2,8 +2,8 @@ const app = require('./app');
 const mongoose = require('mongoose');
 
 const PORT = process.env.PORT || 5000;
-
-mongoose.connect("mongodb://localhost:27017/urlshortener", {
+const MONGOURL = "mongodb+srv://Ali:q0uZDrn2xZXVIoec@cluster0.xqpjzyt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+mongoose.connect(MONGOURL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
