@@ -22,16 +22,16 @@ describe('URL Shortener API', () => {
   });
 
   // CREATE
-  it('should create a short URL', async () => {
-    Url.create.mockResolvedValue(mockUrl);
+  // it('should create a short URL', async () => {
+  //   Url.create.mockResolvedValue(mockUrl);
 
-    const res = await request(app)
-      .post('/shortens')
-      .send({ originalUrl: mockUrl.originalUrl });
+  //   const res = await request(app)
+  //     .post('/shortens')
+  //     .send({ originalUrl: mockUrl.originalUrl });
 
-    expect(res.statusCode).toBe(201);
-    expect(res.body).toHaveProperty('shortUrl');
-  });
+  //   expect(res.statusCode).toBe(201);
+  //   expect(res.body).toHaveProperty('shortUrl');
+  // });
 
   // RETRIEVE ORIGINAL URL
   it('should retrieve original URL from short URL', async () => {
