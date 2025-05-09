@@ -49,6 +49,6 @@ jobs:
           key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
             cd /var/www/URLSHORTENS
-            git pull origin main
             docker-compose down
-            docker-compose up -d --build
+            git pull origin main
+            docker-compose up 
