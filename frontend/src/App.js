@@ -13,7 +13,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>URL Shortener</h1>
+      <h1>URL Shortener 2.0</h1>
 
       <input
         type="text"
