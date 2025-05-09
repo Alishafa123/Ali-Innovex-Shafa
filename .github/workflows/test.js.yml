@@ -51,4 +51,4 @@ jobs:
             cd /var/www/URLSHORTENS
             docker-compose down
             git pull origin main
-            docker-compose up 
+            docker-compose up -d
