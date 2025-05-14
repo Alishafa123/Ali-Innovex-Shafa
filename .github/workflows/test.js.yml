@@ -51,4 +51,4 @@ jobs:
             cd /var/www/URLSHORTENS/Ali-Innovex-Shafa
             docker-compose down
             git pull origin main
-            docker-compose up -d
+            docker-compose up --build -d
