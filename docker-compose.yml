@@ -1,4 +1,4 @@
-
+version: "3.8"
 
 services:
   backend:
@@ -9,6 +9,8 @@ services:
     ports:
       - "5000:5000"
     restart: always
+    networks:
+      - app-network
 
   frontend:
     build:
@@ -16,7 +18,13 @@ services:
       dockerfile: Dockerfile
     container_name: urlshortener-frontend
     ports:
-      - "3000:3000"  # assuming React app is served on port 80 inside container
+      - "85:80"  
     restart: always
     depends_on:
       - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
